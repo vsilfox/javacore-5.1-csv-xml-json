@@ -22,7 +22,6 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-
         String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
         String fileName = "data.csv";
         List<Employee> list = parseCSV(columnMapping, fileName);
@@ -34,7 +33,6 @@ public class Main {
     }
 
     private static List<Employee> parseXML(String fileName) {
-
         List<Employee> list2 = new ArrayList<>();
 
         try {
@@ -55,29 +53,31 @@ public class Main {
 
                 for (int j = 0; j < employeeElements.getLength(); j++) {
                     Node node_ = employeeElements.item(j);
-                    if (node_.getNodeName().equals("id")) {
-                        id = Long.parseLong(node_.getTextContent());
-                    }
-                    if (node_.getNodeName().equals("firstName")) {
-                        firstName = node_.getTextContent();
-                    }
-                    if (node_.getNodeName().equals("lastName")) {
-                        lastName = node_.getTextContent();
-                    }
-                    if (node_.getNodeName().equals("country")) {
-                        country = node_.getTextContent();
-                    }
-                    if (node_.getNodeName().equals("age")) {
-                        age = Integer.parseInt(node_.getTextContent());
+                    switch (node_.getNodeName()) {
+                        case "id":
+                            id = Long.parseLong(node_.getTextContent());
+                            break;
+                        case "firstName":
+                            firstName = node_.getTextContent();
+                            break;
+                        case "lastName":
+                            lastName = node_.getTextContent();
+                            break;
+                        case "country":
+                            country = node_.getTextContent();
+                            break;
+                        case "age":
+                            age = Integer.parseInt(node_.getTextContent());
+                            break;
                     }
                 }
                 Employee employee = new Employee(id, firstName, lastName, country, age);
                 list2.add(employee);
             }
-
         } catch (ParserConfigurationException | SAXException | IOException | NumberFormatException e) {
             e.printStackTrace();
         }
+
         return list2;
     }
 
@@ -101,10 +101,10 @@ public class Main {
                     .withMappingStrategy(strategy)
                     .build();
             result = csv.parse();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return result;
     }
 
